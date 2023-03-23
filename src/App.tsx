@@ -1,14 +1,14 @@
 import { useState } from "react"
+
 import Game, { Guess } from "./components/Game"
 import Header from "./components/Header"
-
-import { NUM_OF_GUESSES_ALLOWED, NUM_OF_LETTERS_ALLOWED } from "./constants"
+import { NUM_OF_GUESSES_ALLOWED } from "./constants"
 import { WORDS } from "./data"
-import "./reset.css"
-import "./styles.css"
 import { sample } from "./utils"
 
-// TODO update README!
+import GuessResult from "./components/GuessResult"
+import "./reset.css"
+import "./styles.css"
 
 export interface GameState {
 	guessList: () => {
@@ -53,32 +53,7 @@ function App() {
 			<div className="wrapper">
 				<Header />
 				<div className="game-wrapper">
-					<div className="guess-results">
-						{guessList.map(({ guess, id }) => {
-							return (
-								<p className="guess" key={id}>
-									{guess.length > 0
-										? guess.map(({ letter, status }, i) => {
-												return (
-													<span
-														className={`cell ${status || ""}`}
-														key={i}
-													>
-														{letter}
-													</span>
-												)
-										  })
-										: Array.from({
-												length: NUM_OF_LETTERS_ALLOWED,
-										  }).map((_, i) => {
-												return (
-													<span className="cell" key={i}></span>
-												)
-										  })}
-								</p>
-							)
-						})}
-					</div>
+					<GuessResult guessList={guessList}/>
 					<Game
 						addGuessToList={addGuessToList}
 						resetGuessList={resetGuessList}
